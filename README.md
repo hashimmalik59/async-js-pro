@@ -27,3 +27,11 @@ Learning Async JS and fetch API with tasks, exercises, problems, and projects
 ### 7. What is then and catch
 
 ### 8. Difference between then and catch
+
+# Mini-Project: Github user finder
+
+### 1. Fetch data from github user API
+
+### 2. Show elements one by one on DOM
+
+### 3. Loading...
