@@ -41,3 +41,10 @@ span {
 .loader {
     display: block;
 }
+
+.display-data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

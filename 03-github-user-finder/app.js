@@ -1,44 +1,45 @@
 const container = document.querySelector(".container");
 const searchButton = document.querySelector(".search-button");
 const loader = document.querySelector("span");
+const userInput = document.querySelector(".user-input");
+const displayData = document.querySelector(".display-data");
 
 searchButton.addEventListener("click", () => {
-  const userInput = document.querySelector(".user-input").value;
-  const url = `https://api.github.com/users/${userInput}`;
+  const username = userInput.value;
 
-  const profileImage = document.createElement("img");
-  const followers = document.createElement("p");
-  const following = document.createElement("p");
-  const publicRepos = document.createElement("p");
-  const profileLink = document.createElement("a");
+  const url = `https://api.github.com/users/${username}`;
 
-  loader.classList.add("loader");
-
-  fetch(url)
-    .then((response) => {
-      if (!response.ok) throw new Error("User nor found");
-      return response.json();
-    })
-    .then((data) => {
-      profileImage.src = `${data.avatar_url}`;
-      followers.textContent = `Followers: ${data.followers}`;
-      following.textContent = `Following: ${data.following}`;
-      publicRepos.textContent = `Public Repos: ${data.public_repos}`;
-      profileLink.href = `${data.html_url}`;
-      profileLink.textContent = `Go to ${data.login} profile`;
-
-      profileImage.setAttribute("height", "100px");
-      profileImage.setAttribute("style", "border-radius: 50%;");
-
-      container.appendChild(profileImage);
-      container.appendChild(followers);
-      container.appendChild(following);
-      container.appendChild(publicRepos);
-      container.appendChild(profileLink);
-    })
-    .catch((error) => console.log(error.message))
-    .finally(() => {
-      console.log("Process Done");
-      loader.classList.remove("loader");
-    });
+  if (!username) {
+    loader.classList.add("loader");
+    loader.textContent = "Invalid Username";
+    loader.style.color = "red";
+  } else {
+    const profileImage = document.createElement("img");
+    const followers = document.createElement("p");
+    const following = document.createElement("p");
+    const publicRepos = document.createElement("p");
+    const profileLink = document.createElement("a");
+    loader.textContent = "Loading...";
+    loader.style.color = "#000";
+    displayData.innerHTML = "";
+    fetch(url)
+      .then((response) => {
+        if (!response.ok) throw new Error("User nor found");
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        displayData.innerHTML = `
+        <img style="border-radius: 50%" src=${data.avatar_url} height="100px" />
+        <p>Followers: ${data.followers}</p>
+        <p>Following: ${data.following}</p>
+        <p>Public Repo: ${data.public_repos}</p>
+        <a href=${data.html_url}>Go to ${data.login} profile</a>`;
+      })
+      .catch((error) => console.log(error.message))
+      .finally(() => {
+        console.log("Process Done");
+        loader.classList.remove("loader");
+      });
+  }
 });
