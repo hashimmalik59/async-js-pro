@@ -32,3 +32,12 @@ button {
     border-radius: 5px;
     border: 1px solid #212121;
 }
+
+span {
+    display: none;
+    font-weight: 900;
+}
+
+.loader {
+    display: block;
+}
